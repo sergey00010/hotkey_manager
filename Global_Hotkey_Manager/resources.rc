@@ -1,0 +1,4 @@
+#include "resource.h"
+
+// Определение иконки приложения
+IDI_APP_ICON ICON "_icon.ico"

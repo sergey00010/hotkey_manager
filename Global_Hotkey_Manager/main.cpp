@@ -23,6 +23,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR, int) {
     HWND hwnd = CreateWindowEx(0, CLASS_NAME, L"HotkeyManagerApp", 0, 0, 0, 0, 0, HWND_MESSAGE, NULL, hInstance, NULL);
     if (!hwnd) return 1;
 
+    wndManager.AddTrayIcon(hwnd);
+
     // register keys
     for (const auto& [id, hk] : wndManager.keyMng->hotkeyMap) {
         if (!RegisterHotKey(hwnd, id, hk.modifiers, hk.key)) {
@@ -32,6 +34,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR, int) {
 
     MSG msg = {};
     while (GetMessage(&msg, NULL, 0, 0)) {
+        if (msg.message == WM_APP + 1) {
+            if (msg.lParam == WM_RBUTTONUP) {
+                wndManager.ShowContexMenu(hwnd);
+            }
+        }
+
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
