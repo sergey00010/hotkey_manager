@@ -13,6 +13,8 @@
 #include "resource.h"
 #include "KeyManager.h"
 #include "FileManager.h"
+#include "BaseFunction.h"
+
 
 class WindowsManager
 {
@@ -38,5 +40,6 @@ private:
 	~WindowsManager() {}                           
 	WindowsManager(const WindowsManager&) = delete;           
 	WindowsManager& operator=(const WindowsManager&) = delete; 
+
 };
 

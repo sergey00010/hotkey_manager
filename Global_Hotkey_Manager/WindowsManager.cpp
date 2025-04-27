@@ -10,29 +10,32 @@ LRESULT WindowsManager::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
         if (it != keyMng->hotkeyMap.end()) {
             const std::wstring& act = it->second.action;
             
+
+            HWND hwndActive = GetForegroundWindow();
+
             if (act == L"exit") {
-                PostQuitMessage(0);
+                BaseFunction::closeApp();
             }
             else if (act.find(L".exe") != std::wstring::npos) {
-                ShellExecute(NULL, L"open", act.c_str(), NULL, NULL, SW_SHOWNORMAL);
+                BaseFunction::openApplication(act);
             }
             else if (act == L"minimize") {
-                HWND hwndActive = GetForegroundWindow();
-                ShowWindow(hwndActive, SW_MINIMIZE);
+                BaseFunction::minimizeApp(hwndActive);
+            }
+            else if (act == L"close") {  
+                BaseFunction::closeApp(hwndActive);
+            }
+            else if (act == L"reload") {
+                BaseFunction::reloadApplication(hwndActive);
+            }
+            else if (act == L"toggleTopMost") {
+                BaseFunction::toggleTopMost(hwndActive);
+            }
+            else if (act == L"sleep") {
+                BaseFunction::enterSleepMode(false);
             }
             else {
-                for (wchar_t ch : act) {
-                    INPUT ip[2] = {};
-                    ip[0].type = INPUT_KEYBOARD;
-                    ip[0].ki.wVk = 0;
-                    ip[0].ki.wScan = ch;
-                    ip[0].ki.dwFlags = KEYEVENTF_UNICODE;
-                    SendInput(1, &ip[0], sizeof(INPUT));
-
-                    ip[1] = ip[0];
-                    ip[1].ki.dwFlags |= KEYEVENTF_KEYUP;
-                    SendInput(1, &ip[1], sizeof(INPUT));
-                } 
+				BaseFunction::enterBindText(act);
             }
         }
         break;
@@ -42,6 +45,7 @@ LRESULT WindowsManager::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
         case ID_TRAY_EXIT:
             Shell_NotifyIcon(NIM_DELETE, &nid);
             DestroyWindow(hwnd);
+            PostQuitMessage(0);
             break;
 
         case ID_TRAY_SETTINGS:
@@ -104,3 +108,5 @@ void WindowsManager::ShowContexMenu(HWND hwnd)
     PostMessage(hwnd, WM_NULL, 0, 0);
     DestroyMenu(hMenu);
 }
+
+

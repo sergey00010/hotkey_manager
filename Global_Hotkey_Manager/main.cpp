@@ -28,7 +28,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR, int) {
     // register keys
     for (const auto& [id, hk] : wndManager.keyMng->hotkeyMap) {
         if (!RegisterHotKey(hwnd, id, hk.modifiers, hk.key)) {
-            MessageBox(NULL, L"error register key", L"Error", MB_OK | MB_ICONERROR);
+            //MessageBox(NULL, L"error register key", L"Error", MB_OK | MB_ICONERROR);
         }
     }
 

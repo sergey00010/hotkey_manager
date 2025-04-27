@@ -128,12 +128,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaseFunction.cpp" />
     <ClCompile Include="FileManager.cpp" />
     <ClCompile Include="KeyManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="WindowsManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseFunction.h" />
     <ClInclude Include="FileManager.h" />
     <ClInclude Include="KeyManager.h" />
     <ClInclude Include="resource.h" />
